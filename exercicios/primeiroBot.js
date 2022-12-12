@@ -15,54 +15,43 @@ const currentHour = moment().hours();
 const currentMinute = moment().minutes()
 const currentTime = moment().format('HH:mm');
 const defaultTimeZone = momentTimeZone.tz("America/Recife").format('HH:mm'); // return string
+const defaultTimeZoneHour = momentTimeZone.tz("America/Recife").hour(); // return number
 const defaultTimeZoneMinute = momentTimeZone.tz("America/Recife").minutes(); // return number
 
 const maxMinute = 59;
 const minMinute = defaultTimeZoneMinute;
-var paused = false;
-
-
-
-console.log(defaultTimeZone + ' Recife')
-console.log(typeof defaultTimeZone + ' Recife')
-console.log(defaultTimeZoneMinute)
-console.log(typeof defaultTimeZoneMinute)
-console.log('----------------------------')
+var paused = false; // false == shutdown bot and true == turn on bot
 
 // logica de pausa do bot https://stackoverflow.com/questions/71315968/how-to-stop-and-restart-telegram-bot
 
 bot.start(async (ctx, next) => {
-    const from = ctx.update.message.from;
-    await console.log(from);
-    console.log(currentTime)
-    ctx.reply(`Seja bem vindo, ${from.first_name}! No momento são ${currentTime} horas!`)
-    getRandomBetEntry(minMinute, maxMinute);
-    getRandomInterval(2, 3)
-    next();
-})
+    // const from = ctx.update.message.from;
+    // await console.log(from)  // Para falar com a pessoa que esta conversando com o bot
+    ctx.reply(`Se preparem para os sinais! proximo sinal entre 3 a 5 minutos`)
 
-
-
-bot.on('text', async (ctx, next) => {
-    let message = '';
-    if(currentHour > 11 && currentHour < 18) {
-        message = 'Boa tarde';
-    } else if (currentHour >= 18 && currentHour <= 23) {
-        message = 'Boa noite';
-    } else {
-        message = 'Bom dia';
+    if ( paused == false) {
+        function foo_interval_action() {
+            let RedOrGreen = Math.random();
+            console.log('red or green math random = ' + RedOrGreen)
+            if (RedOrGreen < 0.7) {
+                bot.telegram.sendMessage(process.env.TELEGRAM_CHANNEL, '🟣 APOSTE AGORA 🟣\n\n🚀 Saque Aut. em 1,5x / 2x*\n(50% Saque Aut. em 1,3x)\n\n🔄 Fazer no máx. G1\n\n(Recuperar dobrando a aposta)\n\n⏰ Entrar 10/15 segundos antes/depois\n\n(Analisar rodadas anteriores)\n⚠️ Gerenciamento de banca\n\n(Se perder a culpa não é minha!)\n\n✅GREEN');
+                setTimeout(foo_interval_action,  getRandomInterval(3, 6) * 60000);
+                console.log('GREEN aposte agora!' + currentTime)
+            } else {
+                bot.telegram.sendMessage(process.env.TELEGRAM_CHANNEL, '🟣 APOSTE AGORA 🟣\n\n🚀 Saque Aut. em 1,5x / 2x*\n(50% Saque Aut. em 1,3x)\n\n🔄 Fazer no máx. G1\n\n(Recuperar dobrando a aposta)\n\n⏰ Entrar 10/15 segundos antes/depois\n\n(Analisar rodadas anteriores)\n⚠️ Gerenciamento de banca\n\n(Se perder a culpa não é minha!)\n\n❌RED');
+                setTimeout(foo_interval_action,  getRandomInterval(3, 6) * 6000);
+                console.log('RED CUIDADO!') + currentTime
+            }
+        }
+          setTimeout(foo_interval_action,  getRandomInterval(3, 6) * 60000);
+        } else if (defaultTimeZoneHour >= 3 && defaultTimeZoneHour <= 10) {
+        ctx.reply('🛑 Operações Pausadas! Retornaremos às 10 da manhã 🛑');
     }
-    await ctx.reply(message)
     next();
 });
 
-bot.on('text', async (ctx, next) => {
-    await ctx.reply('*Analisar as rodadas anteriores pra saber se vai entrar 10 segundos antes ou 10 segundos depois.*\nSaque automático 1.5x \nMax 2x\n50% de saque ativado em 1.3x\n*Gerenciamento de banca, se perder a culpa não é minha!*\nVamos pra cima voadores\n🚀💜✅\nUser Detail:@72:29263:2926363:272-37264-39937')
-});
-
-bot.on('text', (ctx, next) => {
-    ctx.reply('mid 3')
-    next();
+bot.on('/stop', async (ctx, next) => {
+    await ctx.reply('🛑 Operações Pausadas! 🛑');
 });
 
 process.once('SIGINT', () => bot.stop('SIGINT'));
@@ -70,17 +59,13 @@ process.once('SIGTERM', () => bot.stop('SIGTERM'));
 
 bot.startPolling();
 
-// Geracao de numero aleatorio
-
-function getRandomBetEntry(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    var randomBetEntry = 0;
-    return  Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 function getRandomInterval(min, max) {
-    var randomInterval = 3;
-    randomInterval = Math.random() * (max - min) + min;
-    return randomInterval = randomInterval * 1000;
-}
+    let randomInterval = Math.floor(Math.random() * (max - min) + min);
+    console.log('randomInterval = ' + randomInterval + ' minutos')
+    return randomInterval;
+};
+
+console.log(defaultTimeZone + ' Recife')
+console.log(typeof defaultTimeZone + ' Recife')
+console.log(defaultTimeZoneMinute)
+console.log('----------------------------')
