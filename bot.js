@@ -98,7 +98,7 @@ bot.startPolling();
 function getRandomInterval(min, max) {
     let randomInterval = Math.floor(Math.random() * (max - min) + min); // Not include the max value
     console.log('randomInterval = Daqui a ' + randomInterval + ' minutos. TimeZone Recife AGORA = ' + timezoneRecifeFormated());
-    return randomInterval * 5000;
+    return randomInterval * 60000;
 };
 
 // console.log(typeof defaultTimeZone + ' Recife')
