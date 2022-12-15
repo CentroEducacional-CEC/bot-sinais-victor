@@ -2,7 +2,7 @@ const Telegraf = require('telegraf');
 require('dotenv').config();
 const token = process.env.token;
 const bot = new Telegraf(token);
-// bot.telegram.deleteWebhook();
+bot.telegram.deleteWebhook();
 const moment = require('moment');
 const momentTimeZone = require('moment-timezone');
 
