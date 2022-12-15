@@ -12,8 +12,8 @@ jobs:
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1
     - run: npm install
-    - name: Run index.js
-      run: node index.js
+    - name: Run bot.js
+      run: node bot.js
       env:
         token: ${{ secrets.token }}
         TELEGRAM_CHANNEL: ${{ secrets.TELEGRAM_CHANNEL  }}
