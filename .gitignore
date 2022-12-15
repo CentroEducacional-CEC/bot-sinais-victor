@@ -1,4 +1,4 @@
-.env
+# .env # retirei do node modules por conta que subi via okteto que é container
 node_modules
 entendendoAlgoritmo.js
 # Local Netlify folder

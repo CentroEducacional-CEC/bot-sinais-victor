@@ -90,12 +90,12 @@ console.log('Hora: ' + defaultTimeZoneHour)
 console.log('Tipo do dado Hora é um: ' + typeof defaultTimeZoneHour)
 console.log('----------------------------')
 
-exports.handler = async event => {
-    try {
-      await bot.handleUpdate(JSON.parse(event.body))
-      return { statusCode: 200, body: "" }
-    } catch (e) {
-      console.error("error in handler:", e)
-      return { statusCode: 400, body: "This endpoint is meant for bot and telegram communication" }
-    }
-  }
+// exports.handler = async event => {
+//     try {
+//       await bot.handleUpdate(JSON.parse(event.body))
+//       return { statusCode: 200, body: "" }
+//     } catch (e) {
+//       console.error("error in handler:", e)
+//       return { statusCode: 400, body: "This endpoint is meant for bot and telegram communication" }
+//     }
+//   }
