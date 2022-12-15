@@ -2,7 +2,8 @@ name: "Github Actions Victor Bot"
 
 on:
   push:
-  
+  # schedule:
+  #   - cron: '* * * * *'  see in https://crontab.guru/examples.html
 
 jobs:
   bot:
