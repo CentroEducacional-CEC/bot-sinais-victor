@@ -3,3 +3,4 @@ node_modules
 entendendoAlgoritmo.js
 # Local Netlify folder
 .netlify
+.env

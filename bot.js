@@ -46,11 +46,11 @@ bot.start(async (ctx, next) => {
             console.log('-----------')
             console.log('OFFline period = ' + offlinePeriod);
                 
-                if (RedOrGreen < 0.7 && !onlinePeriod) {
+                if (RedOrGreen < 0.7 && onlinePeriod) {
                     bot.telegram.sendMessage(process.env.TELEGRAM_CHANNEL, '🟣 APOSTE AGORA 🟣\n\n🚀 Saque Aut. em 1,5x / 2x*\n(50% Saque Aut. em 1,3x)\n\n🔄 Fazer no máx. G1\n\n(Recuperar dobrando a aposta)\n\n⏰ Entrar 10/15 segundos antes/depois\n\n(Analisar rodadas anteriores)\n⚠️ Gerenciamento de banca\n\n(Se perder a culpa não é minha!)');
                     setTimeout(foo_interval_action,  getRandomInterval(minimumRangeMinute, maxRangeMinute));
                     console.log('GREEN aposte agora!' + timezoneRecifeFormated());
-                } else if (RedOrGreen >= 0.7 && !onlinePeriod) {
+                } else if (RedOrGreen >= 0.7 && onlinePeriod) {
                     bot.telegram.sendMessage(process.env.TELEGRAM_CHANNEL, '🟣 APOSTE AGORA 🟣\n\n🚀 Saque Aut. em 1,5x / 2x*\n(50% Saque Aut. em 1,3x)\n\n🔄 Fazer no máx. G1\n\n(Recuperar dobrando a aposta)\n\n⏰ Entrar 10/15 segundos antes/depois\n\n(Analisar rodadas anteriores)\n⚠️ Gerenciamento de banca\n\n(Se perder a culpa não é minha!)');
                     setTimeout(foo_interval_action,  getRandomInterval(minimumRangeMinute, maxRangeMinute));
                     console.log(('RED CUIDADO!') + timezoneRecifeFormated());
@@ -61,6 +61,22 @@ bot.start(async (ctx, next) => {
                 }
         }   
     }
+
+    // async function handleRequest(request) {
+    //     if (request.method === "GET") {
+    //       const payload = await request.json() 
+    //       // Getting the POST request JSON payload
+    //       if ('message' in payload) { 
+    //         // Checking if the payload comes from Telegram
+    //         const chatId = payload.message.chat.id
+    //         const text = payload.message.text + " over"
+    //         const url = `https://api.telegram.org/bot${API_KEY}/sendMessage?chat_id=${chatId}&text=${text}`
+    //         const data = await fetch(url).then(resp => resp.json()) 
+    //         // Calling the API endpoint to send a telegram message
+    //       }
+    //     }
+    //     return new Response("OK") // Doesn't really matter
+    //   }
 
     setTimeout(foo_interval_action,  getRandomInterval(minimumRangeMinute, maxRangeMinute));
 
@@ -82,7 +98,7 @@ bot.startPolling();
 function getRandomInterval(min, max) {
     let randomInterval = Math.floor(Math.random() * (max - min) + min); // Not include the max value
     console.log('randomInterval = Daqui a ' + randomInterval + ' minutos. TimeZone Recife AGORA = ' + timezoneRecifeFormated());
-    return randomInterval * 60000;
+    return randomInterval * 10000;
 };
 
 // console.log(typeof defaultTimeZone + ' Recife')

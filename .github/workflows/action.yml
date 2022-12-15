@@ -1,0 +1,19 @@
+name: "Github Actions Victor Bot"
+
+on:
+  push:
+  schedule:
+    - cron: '* * * * *'
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest 
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+    - run: npm install
+    - name: Run index.js
+      run: node index.js
+      env:
+        token: ${{ secrets.token }}
+        TELEGRAM_CHANNEL: ${{ secrets.TELEGRAM_CHANNEL  }}

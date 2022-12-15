@@ -15,6 +15,7 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.39",
     "netlify-lambda": "^2.0.15",
+    "nodemon": "^2.0.20",
     "telegraf": "3.17.3"
   }
 }
