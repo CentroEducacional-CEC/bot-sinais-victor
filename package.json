@@ -13,6 +13,7 @@
     "dotenv": "^16.0.3",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.39",
+    "netlify-lambda": "^2.0.15",
     "telegraf": "3.17.3"
   }
 }

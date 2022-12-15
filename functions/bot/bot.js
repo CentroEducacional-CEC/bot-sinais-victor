@@ -28,7 +28,7 @@ const minimumRangeMinute = 3;
 const maxRangeMinute = 6;
 
 bot.start(async (ctx, next) => {
-    ctx.reply(`🟢Bot online! Próximo sinal em aproximadamente 3 a 5 minutos\n\n ⚠OBS: Caso estejamos entre 3h da manhã e 8h da manhã o bot só enviará os primeiros sinais a partir das 10h da manhã\n\n⏸Para pausar o bot, digite: /stopbet`);
+    ctx.reply(`🟢Bot online! Próximo sinal em aproximadamente 3 a 5 minutos\n\n ⚠OBS: Caso estejamos entre 3h da manhã e 8h da manhã o bot só enviará os primeiros sinais a partir das 8h da manhã\n\n⏸Para pausar o bot, digite: /stopbet`);
     pauseBot = false;
     
     function foo_interval_action() {
