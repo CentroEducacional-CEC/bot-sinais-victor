@@ -2,7 +2,7 @@ const Telegraf = require('telegraf');
 require('dotenv').config();
 const token = process.env.token;
 const bot = new Telegraf(token);
-bot.telegram.deleteWebhook();
+// bot.telegram.deleteWebhook();
 const moment = require('moment');
 const momentTimeZone = require('moment-timezone');
 
@@ -82,7 +82,7 @@ bot.startPolling();
 function getRandomInterval(min, max) {
     let randomInterval = Math.floor(Math.random() * (max - min) + min); // Not include the max value
     console.log('randomInterval = Daqui a ' + randomInterval + ' minutos. TimeZone Recife AGORA = ' + timezoneRecifeFormated());
-    return randomInterval * 1000;
+    return randomInterval * 60000;
 };
 
 // console.log(typeof defaultTimeZone + ' Recife')
