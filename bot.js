@@ -1,4 +1,3 @@
-// const env = require('../.env');
 const Telegraf = require('telegraf');
 require('dotenv').config();
 const token = process.env.token;
@@ -10,49 +9,68 @@ const momentTimeZone = require('moment-timezone');
 if (!token) throw new Error('"BOT_TOKEN" env var is required!');
 // if (!webhookDomain) throw new Error('"WEBHOOK_DOMAIN" env var is required!');
 
-// console.log(moment().format('HH:mm:ss'));
-const currentHour = moment().hours();
-const currentMinute = moment().minutes()
-const currentTime = moment().format('HH:mm');
-const defaultTimeZone = momentTimeZone.tz("America/Recife").format('HH:mm'); // return string
-const defaultTimeZoneHour = momentTimeZone.tz("America/Recife").hour(); // return number
-const defaultTimeZoneMinute = momentTimeZone.tz("America/Recife").minutes(); // return number
+var currentTime = moment().format('HH:mm');
+var defaultTimeZone = momentTimeZone.tz("America/Recife").format('HH:mm'); // return string
+var defaultTimeZoneHour = momentTimeZone.tz("America/Recife").hour(); // return number
+var defaultTimeZoneMinute = momentTimeZone.tz("America/Recife").minutes(); // return number
 
-const maxMinute = 59;
-const minMinute = defaultTimeZoneMinute;
-var paused = false; // false == shutdown bot and true == turn on bot
+function timezoneRecifeFormated() {
+    return momentTimeZone.tz("America/Recife").format('HH:mm');
+}
 
-// logica de pausa do bot https://stackoverflow.com/questions/71315968/how-to-stop-and-restart-telegram-bot
+function timezoneRecifeHour() {
+    return momentTimeZone.tz("America/Recife").hour();
+}
+
+var pauseBot = false;
+
+const minimumRangeMinute = 3;
+const maxRangeMinute = 6;
 
 bot.start(async (ctx, next) => {
-    // const from = ctx.update.message.from;
-    // await console.log(from)  // Para falar com a pessoa que esta conversando com o bot
-    ctx.reply(`Se preparem para os sinais! proximo sinal entre 3 a 5 minutos`)
-
-    if ( paused == false) {
-        function foo_interval_action() {
+    ctx.reply(`🟢Bot online! Próximo sinal em aproximadamente 3 a 5 minutos\n\n ⚠OBS: Caso estejamos entre 3h da manhã e 8h da manhã o bot só enviará os primeiros sinais a partir das 10h da manhã\n\n⏸Para pausar o bot, digite: /stopbet`);
+    pauseBot = false;
+    
+    function foo_interval_action() {
+        if (pauseBot == false) {
             let RedOrGreen = Math.random();
-            console.log('red or green math random = ' + RedOrGreen)
-            if (RedOrGreen < 0.7) {
-                bot.telegram.sendMessage(process.env.TELEGRAM_CHANNEL, '🟣 APOSTE AGORA 🟣\n\n🚀 Saque Aut. em 1,5x / 2x*\n(50% Saque Aut. em 1,3x)\n\n🔄 Fazer no máx. G1\n\n(Recuperar dobrando a aposta)\n\n⏰ Entrar 10/15 segundos antes/depois\n\n(Analisar rodadas anteriores)\n⚠️ Gerenciamento de banca\n\n(Se perder a culpa não é minha!)\n\n✅GREEN');
-                setTimeout(foo_interval_action,  getRandomInterval(3, 6) * 60000);
-                console.log('GREEN aposte agora!' + currentTime)
-            } else {
-                bot.telegram.sendMessage(process.env.TELEGRAM_CHANNEL, '🟣 APOSTE AGORA 🟣\n\n🚀 Saque Aut. em 1,5x / 2x*\n(50% Saque Aut. em 1,3x)\n\n🔄 Fazer no máx. G1\n\n(Recuperar dobrando a aposta)\n\n⏰ Entrar 10/15 segundos antes/depois\n\n(Analisar rodadas anteriores)\n⚠️ Gerenciamento de banca\n\n(Se perder a culpa não é minha!)\n\n❌RED');
-                setTimeout(foo_interval_action,  getRandomInterval(3, 6) * 6000);
-                console.log('RED CUIDADO!') + currentTime
-            }
-        }
-          setTimeout(foo_interval_action,  getRandomInterval(3, 6) * 60000);
-        } else if (defaultTimeZoneHour >= 3 && defaultTimeZoneHour <= 10) {
-        ctx.reply('🛑 Operações Pausadas! Retornaremos às 10 da manhã 🛑');
+            
+            let onlinePeriod = timezoneRecifeHour() > 7 || timezoneRecifeHour() < 3;
+            let offlinePeriod = timezoneRecifeHour() >= 15 && timezoneRecifeHour() < 17
+            
+            console.log('red or green math random = ' + RedOrGreen);
+            console.log('-----------')
+            console.log('ONline period = ' + onlinePeriod);
+            console.log('-----------')
+            console.log('OFFline period = ' + offlinePeriod);
+                
+                if (RedOrGreen < 0.7 && onlinePeriod) {
+                    bot.telegram.sendMessage(process.env.TELEGRAM_CHANNEL, '🟣 APOSTE AGORA 🟣\n\n🚀 Saque Aut. em 1,5x / 2x*\n(50% Saque Aut. em 1,3x)\n\n🔄 Fazer no máx. G1\n\n(Recuperar dobrando a aposta)\n\n⏰ Entrar 10/15 segundos antes/depois\n\n(Analisar rodadas anteriores)\n⚠️ Gerenciamento de banca\n\n(Se perder a culpa não é minha!)');
+                    setTimeout(foo_interval_action,  getRandomInterval(minimumRangeMinute, maxRangeMinute));
+                    console.log('GREEN aposte agora!' + timezoneRecifeFormated());
+                } else if (RedOrGreen >= 0.7 && onlinePeriod) {
+                    bot.telegram.sendMessage(process.env.TELEGRAM_CHANNEL, '🟣 APOSTE AGORA 🟣\n\n🚀 Saque Aut. em 1,5x / 2x*\n(50% Saque Aut. em 1,3x)\n\n🔄 Fazer no máx. G1\n\n(Recuperar dobrando a aposta)\n\n⏰ Entrar 10/15 segundos antes/depois\n\n(Analisar rodadas anteriores)\n⚠️ Gerenciamento de banca\n\n(Se perder a culpa não é minha!)');
+                    setTimeout(foo_interval_action,  getRandomInterval(minimumRangeMinute, maxRangeMinute));
+                    console.log(('RED CUIDADO!') + timezoneRecifeFormated());
+                }
+                else {
+                    setTimeout(foo_interval_action,  getRandomInterval(minimumRangeMinute, maxRangeMinute));
+                    console.log('Bot offline, fora do periodo de trabalho. Agora são ' + timezoneRecifeFormated());
+                }
+        }   
     }
+
+    setTimeout(foo_interval_action,  getRandomInterval(minimumRangeMinute, maxRangeMinute));
+
     next();
 });
 
-bot.on('/stop', async (ctx, next) => {
-    await ctx.reply('🛑 Operações Pausadas! 🛑');
-});
+bot.command('stopbet', (ctx) => { // Para pausar o bot use o comando /stopbet
+    pauseBot = true;
+    ctx.reply('⛔BOT PAUSADO❗ \n\n Para iniciar o bot novamente digite: /start');
+    console.log('Bot pausado manualmente pelo usuário.');
+    return
+})
 
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
@@ -60,12 +78,14 @@ process.once('SIGTERM', () => bot.stop('SIGTERM'));
 bot.startPolling();
 
 function getRandomInterval(min, max) {
-    let randomInterval = Math.floor(Math.random() * (max - min) + min);
-    console.log('randomInterval = ' + randomInterval + ' minutos')
-    return randomInterval;
+    let randomInterval = Math.floor(Math.random() * (max - min) + min); // Not include the max value
+    console.log('randomInterval = Daqui a ' + randomInterval + ' minutos. TimeZone Recife AGORA = ' + timezoneRecifeFormated());
+    return randomInterval * 60000;
 };
 
+// console.log(typeof defaultTimeZone + ' Recife')
+// console.log(defaultTimeZoneMinute)
 console.log(defaultTimeZone + ' Recife')
-console.log(typeof defaultTimeZone + ' Recife')
-console.log(defaultTimeZoneMinute)
+console.log('Hora: ' + defaultTimeZoneHour)
+console.log('Tipo do dado Hora é um: ' + typeof defaultTimeZoneHour)
 console.log('----------------------------')
