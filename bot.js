@@ -41,17 +41,17 @@ bot.start(async (ctx, next) => {
             let offlinePeriod = timezoneRecifeHour() >= 15 && timezoneRecifeHour() < 17
             
             console.log('red or green math random = ' + RedOrGreen);
-            console.log('-----------')
-            console.log('ONline period = ' + onlinePeriod);
-            console.log('-----------')
-            console.log('OFFline period = ' + offlinePeriod);
+            console.log('--------------------------------');
+            console.log('ONLINE period = ' + onlinePeriod);
+            console.log('--------------------------------');
+            console.log('OFFLINE period = ' + offlinePeriod);
                 
                 if (RedOrGreen < 0.7 && onlinePeriod) {
-                    bot.telegram.sendMessage(process.env.TELEGRAM_CHANNEL, '🟣 APOSTE AGORA 🟣\n\n🚀 Saque Aut. em 1,5x / 2x*\n(50% Saque Aut. em 1,3x)\n\n🔄 Fazer no máx. G1\n\n(Recuperar dobrando a aposta)\n\n⏰ Entrar 10/15 segundos antes/depois\n\n(Analisar rodadas anteriores)\n⚠️ Gerenciamento de banca\n\n(Se perder a culpa não é minha!)');
+                    bot.telegram.sendMessage(process.env.TELEGRAM_CHANNEL, '🟣 APOSTE AGORA 🟣\n\n🚀 Saque Aut. em 1,5x / 2x*\n(50% Saque Aut. em 1,3x)\n\n🔄 Fazer no máx. G1\n\n(Recuperar dobrando a aposta)\n\n⏰(Analisar rodadas anteriores)\n⚠️ Gerenciamento de banca\n\n(Se perder a culpa não é minha!)');
                     setTimeout(foo_interval_action,  getRandomInterval(minimumRangeMinute, maxRangeMinute));
                     console.log('GREEN aposte agora!' + timezoneRecifeFormated());
                 } else if (RedOrGreen >= 0.7 && onlinePeriod) {
-                    bot.telegram.sendMessage(process.env.TELEGRAM_CHANNEL, '🟣 APOSTE AGORA 🟣\n\n🚀 Saque Aut. em 1,5x / 2x*\n(50% Saque Aut. em 1,3x)\n\n🔄 Fazer no máx. G1\n\n(Recuperar dobrando a aposta)\n\n⏰ Entrar 10/15 segundos antes/depois\n\n(Analisar rodadas anteriores)\n⚠️ Gerenciamento de banca\n\n(Se perder a culpa não é minha!)');
+                    bot.telegram.sendMessage(process.env.TELEGRAM_CHANNEL, '🟣 APOSTE AGORA 🟣\n\n🚀 Saque Aut. em 1,5x / 2x*\n(50% Saque Aut. em 1,3x)\n\n🔄 Fazer no máx. G1\n\n(Recuperar dobrando a aposta)\n\n⏰(Analisar rodadas anteriores)\n⚠️ Gerenciamento de banca\n\n(Se perder a culpa não é minha!)');
                     setTimeout(foo_interval_action,  getRandomInterval(minimumRangeMinute, maxRangeMinute));
                     console.log(('RED CUIDADO!') + timezoneRecifeFormated());
                 }
@@ -97,7 +97,7 @@ bot.startPolling();
 
 function getRandomInterval(min, max) {
     let randomInterval = Math.floor(Math.random() * (max - min) + min); // Not include the max value
-    console.log('randomInterval = Daqui a ' + randomInterval + ' minutos. TimeZone Recife AGORA = ' + timezoneRecifeFormated());
+    console.log('randomInterval = Daqui a ' + randomInterval + ' minutos.timeZone Recife agora = ' + timezoneRecifeFormated());
     return randomInterval * 60000;
 };
 
@@ -106,7 +106,7 @@ function getRandomInterval(min, max) {
 console.log(defaultTimeZone + ' Recife')
 console.log('Hora: ' + defaultTimeZoneHour)
 console.log('Tipo do dado Hora é um: ' + typeof defaultTimeZoneHour)
-console.log('----------------------------')
+console.log('-----------------------------------')
 
 exports.handler = async event => {
     try {
