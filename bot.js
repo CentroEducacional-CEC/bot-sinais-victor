@@ -38,12 +38,12 @@ bot.start(async (ctx, next) => {
             let RedOrGreen = Math.random();
             
             let onlinePeriod = timezoneRecifeHour() > 7 || timezoneRecifeHour() < 3;
-            let offlinePeriod = timezoneRecifeHour() >= 15 && timezoneRecifeHour() < 17
+            let offlinePeriod = timezoneRecifeHour() >= 3 && timezoneRecifeHour() <= 7
             
             console.log('red or green math random = ' + RedOrGreen);
-            console.log('--------------------------------');
+            console.log('---------------------------------');
             console.log('ONLINE period = ' + onlinePeriod);
-            console.log('--------------------------------');
+            console.log('---------------------------------');
             console.log('OFFLINE period = ' + offlinePeriod);
                 
                 if (RedOrGreen < 0.7 && onlinePeriod) {
